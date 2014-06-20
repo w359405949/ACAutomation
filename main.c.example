@@ -1,0 +1,38 @@
+#include "acautomation.h"
+
+int main()
+{
+    struct ACAutoMation *mation = ac_create();
+    ac_add(mation, "你好", sizeof("你好") - 1);
+    ac_add(mation, "好不好", sizeof("好不好") - 1);
+    ac_add(mation, "不好", sizeof("不好") - 1);
+
+    if (ac_match(mation, "啊啊啊你不好", sizeof("啊啊啊你不好")) > 0) {
+        printf("找到了！\n");
+    } else {
+        printf("没找到了！\n");
+    }
+
+    if (ac_match(mation, "啊啊你好啊", sizeof("啊啊你好啊")) > 0) {
+        printf("找到了！\n");
+    } else {
+        printf("没找到了！\n");
+    }
+
+    if (ac_match(mation, "不啊你啊好", sizeof("不啊你啊好")) > 0) {
+        printf("找到了！\n");
+    } else {
+        printf("没找到了！\n");
+    }
+
+
+    if (ac_match(mation, "不好啊啊啊", sizeof("不好啊啊啊")) > 0) {
+        printf("找到了！\n");
+    } else {
+        printf("没找到了！\n");
+    }
+
+
+
+    ac_destroy(mation);
+}
