@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "acautomation.h"
 
 struct ACAutoMation
 {
@@ -57,6 +58,7 @@ struct ACAutoMation *ac_create()
         return NULL;
     }
 
+    mation->root->children = NULL;
     mation->get_word_length = get_utf_8_word_length;
     mation->dirty_node = 0;
     mation->word_count = 0;
@@ -83,7 +85,7 @@ void ac_destroy(struct ACAutoMation *mation)
         return;
     }
     destroy_trie_node(mation->root);
-    mation->root = NULL;
+    free(mation);
 }
 
 void add_trie_node(struct ACAutoMation *mation, struct TrieNode *parent, const char *str, size_t length)
@@ -111,6 +113,7 @@ void add_trie_node(struct ACAutoMation *mation, struct TrieNode *parent, const c
         if (NULL == node) {
             return;
         }
+        node->children = NULL;
         node->pattern = (char*)malloc(pattern_len);
         if (NULL == node->pattern) {
             free(node);
@@ -157,6 +160,8 @@ void build_failed_pointer(struct TrieNode *root, struct TrieNode *bfs_head, stru
 
     int32_t i = 0;
     for (; i < bfs_head->children_len; i++) {
+        bfs_head->children[i]->fail = bfs_head;
+
         bfs_tail->next = bfs_head->children[i];
         bfs_tail = bfs_tail->next;
     }

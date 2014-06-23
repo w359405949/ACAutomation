@@ -1,6 +1,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+    extern "C" {
+#endif
+
 /*
  * create an ACAutoMation content,
  * which record the trie pointer, current state(pointer) and so on.
@@ -22,3 +26,7 @@ void ac_destroy(struct ACAutoMation *mation);
  * match str, return how many patterns have been found.
  */
 int32_t ac_match(struct ACAutoMation *mation, const char *str, size_t length);
+
+#ifdef __cplusplus
+    }
+#endif
