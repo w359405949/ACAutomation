@@ -59,6 +59,7 @@ struct ACAutoMation *ac_create()
     }
 
     mation->root->children = NULL;
+    mation->root->children_len = 0;
     mation->get_word_length = get_utf_8_word_length;
     mation->dirty_node = 0;
     mation->word_count = 0;
@@ -113,12 +114,14 @@ void add_trie_node(struct ACAutoMation *mation, struct TrieNode *parent, const c
         if (NULL == node) {
             return;
         }
-        node->children = NULL;
         node->pattern = (char*)malloc(pattern_len);
         if (NULL == node->pattern) {
             free(node);
             return;
         }
+        node->children = NULL;
+        node->children_len = 0;
+        node->end = 0;
 
         // expand for new node
         int32_t children_len = parent->children_len + 1;
